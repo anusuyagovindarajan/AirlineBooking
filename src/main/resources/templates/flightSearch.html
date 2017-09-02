@@ -3,8 +3,65 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        BODY {
+            font-family: Tahoma;
+            font-size: 10pt;
+            background: beige;
+        }
+        .brdr TD, TH {
+            border-bottom: 1px solid silver;
+        }
+    </style>
 </head>
 <body>
-<p th:text = "'Welcome to TWAirline'"/>
+
+
+<form action="#" th:action="@{/getFlight}" th:object="${flightSearchVO}" method="post">
+    <table>
+        <tr>
+            <td>
+
+                Source : <select id="optionsList" th:field="*{source}" name="optionsListId">
+                    <option th:each="option : ${searchOptions}" th:value="${option.name}"
+                            th:text="${option.name}">Options</option>
+                </select>
+            </td>
+            <td>
+
+                Destination: <select id="optionsList" name="optionsListId" th:field="*{destination}">
+                    <option th:each="option : ${searchOptions}"
+                            th:value="${option.name}"
+                            th:text="${option.name}">Options</option>
+                </select>
+            </td>
+
+
+          <!-- for adding calendar
+            <td>
+                <input type="date" data-date-inline-picker="true" />
+            </td>-->
+
+            <td>
+                <input type="submit" />
+            </td>
+        </tr>
+    </table>
+    <hr/>
+    <table class="brdr" cellpadding="2" cellspacing="2" th:if="${not #lists.isEmpty(flightSearchVO.availableFlight)}">
+        <th>Name</th>
+        <th>Source</th>
+        <th>Destination</th>
+
+        <tr th:each="flight:${flightSearchVO.availableFlight}">
+            <td th:text="${flight.flightNumber}"></td>
+            <td th:text="${flight.source}"></td>
+            <td th:text="${flight.destination}"></td>
+        </tr>
+    </table>
+    <span th:if="${#lists.isEmpty(flightSearchVO.availableFlight)}">No flights found!</span>
+</form>
+
+
 </body>
 </html>
