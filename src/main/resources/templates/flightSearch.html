@@ -37,11 +37,11 @@
                 </select>
             </td>
             <td>
-                Seats: <input type="number" th:field="*{capacity}" />
+                Seats Required: <input type="number" th:field="*{capacity}" />
             </td>
 
             <td>
-                Travel Date: <input type="datetime-local" data-th-datetime="true" th:field="*{startDate}"/>
+                Departure Date: <input type="date" id="dep_date" th:field="*{startDate}"/>
             </td>
 
             <td>

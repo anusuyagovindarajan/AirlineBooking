@@ -22,8 +22,8 @@ public class FlightVO {
     PlaneVO planeVO;
     String source;
     String destination;
-    @DateTimeFormat(pattern = "dd-MM-YYYY HH:mm")
-    LocalDateTime startDate;
+    @DateTimeFormat(pattern = "dd-MM-YYYY")
+    LocalDate startDate;
 
     public PlaneVO getPlaneVO() {
         return planeVO;
@@ -57,11 +57,11 @@ public class FlightVO {
         this.destination = destination;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 }

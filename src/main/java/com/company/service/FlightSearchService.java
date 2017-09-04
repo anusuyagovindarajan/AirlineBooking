@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 
@@ -42,13 +41,13 @@ public class FlightSearchService {
         this.planeRepository = planeRepository;
 
         final FlightVO flight1 = new FlightVO("AHJ123",planeRepository.findOne("P2J23"),
-                "Chennai","Bangalore", LocalDateTime.of(2017, Month.SEPTEMBER,30,0,0));
+                "Chennai","Bangalore", LocalDate.of(2017, Month.SEPTEMBER,30));
         final FlightVO flight2 = new FlightVO("AHJ234",planeRepository.findOne("P3J71"),
-                "Bangalore","Hyderabad", LocalDateTime.of(2017, Month.SEPTEMBER,30,0,0));
+                "Bangalore","Hyderabad", LocalDate.of(2017, Month.SEPTEMBER,30));
         final FlightVO flight3 = new FlightVO("AHJ345",planeRepository.findOne("P2J88"),
-                "Hyderabad","Mumbai",LocalDateTime.of(2017, Month.SEPTEMBER,30,0,0));
+                "Hyderabad","Mumbai",LocalDate.of(2017, Month.SEPTEMBER,30));
         final FlightVO flight4 = new FlightVO("AHJ129",planeRepository.findOne("P3J93"),
-                "Chennai","Bangalore",LocalDateTime.of(2017, Month.SEPTEMBER,30,0,0));
+                "Chennai","Bangalore",LocalDate.of(2017, Month.SEPTEMBER,30));
 
         final List<FlightVO> flights = Arrays.asList(flight1, flight2, flight3, flight4);
 
@@ -66,9 +65,9 @@ public class FlightSearchService {
 
 
 
-    public FlightSearchVO searchFlight(String Source, String Destination, int Capacity, LocalDateTime StartDate){
+    public FlightSearchVO searchFlight(String Source, String Destination, int Capacity, LocalDate StartDate){
 
-        if(Capacity == 0){
+        if(Capacity <= 0){
             Capacity=1;
         }
 

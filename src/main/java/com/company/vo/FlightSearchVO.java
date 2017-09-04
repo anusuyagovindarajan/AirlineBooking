@@ -13,8 +13,8 @@ public class FlightSearchVO {
  String source;
  String destination;
  int capacity;
- @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
- LocalDateTime startDate;
+ @DateTimeFormat(pattern = "yyyy-MM-dd")
+ LocalDate startDate;
 
  ArrayList<FlightVO> availableFlight;
 
@@ -50,11 +50,11 @@ public class FlightSearchVO {
         this.availableFlight = availableFlight;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 }
