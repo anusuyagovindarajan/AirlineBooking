@@ -7,17 +7,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class PlaneVO {
 
+    @Id
     String planeNumber;
     String planeModel;
     int capacity;
-
-    public PlaneVO(String planeNumber, String planeModel, int capacity) {
-        this.planeNumber = planeNumber;
-        this.planeModel = planeModel;
-        this.capacity = capacity;
-    }
 
     public String getPlaneNumber() {
         return planeNumber;

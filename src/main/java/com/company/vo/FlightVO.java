@@ -3,8 +3,12 @@ package com.company.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +22,8 @@ public class FlightVO {
     PlaneVO planeVO;
     String source;
     String destination;
+    @DateTimeFormat(pattern = "dd-MM-YYYY HH:mm")
+    LocalDateTime startDate;
 
     public PlaneVO getPlaneVO() {
         return planeVO;
@@ -49,5 +55,13 @@ public class FlightVO {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 }

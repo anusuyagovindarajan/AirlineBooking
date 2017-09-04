@@ -23,7 +23,8 @@
             <td>
 
                 Source : <select id="optionsList" th:field="*{source}" name="optionsListId">
-                    <option th:each="option : ${searchOptions}" th:value="${option.name}"
+                    <option th:each="option : ${searchOptions}"
+                            th:value="${option.name}"
                             th:text="${option.name}">Options</option>
                 </select>
             </td>
@@ -35,12 +36,13 @@
                             th:text="${option.name}">Options</option>
                 </select>
             </td>
-
-
-          <!-- for adding calendar
             <td>
-                <input type="date" data-date-inline-picker="true" />
-            </td>-->
+                Seats: <input type="number" th:field="*{capacity}" />
+            </td>
+
+            <td>
+                Travel Date: <input type="datetime-local" data-th-datetime="true" th:field="*{startDate}"/>
+            </td>
 
             <td>
                 <input type="submit" />
@@ -49,7 +51,7 @@
     </table>
     <hr/>
     <table class="brdr" cellpadding="2" cellspacing="2" th:if="${not #lists.isEmpty(flightSearchVO.availableFlight)}">
-        <th>Name</th>
+        <th>FlightNo</th>
         <th>Source</th>
         <th>Destination</th>
 

@@ -16,13 +16,13 @@ public class LocationProviderService {
     @Autowired public LocationProviderService(LocationRepository locationRepository) {
 
         final LocationVO city1 = new LocationVO("CHE","Chennai");
-        final LocationVO city2 = new LocationVO("BMB","Bombay");
+        final LocationVO city2 = new LocationVO("BMB","Mumbai");
         final LocationVO city3 = new LocationVO("HYD","Hyderabad");
         final LocationVO city4 = new LocationVO("BLR","Bangalore");
-        final LocationVO city5 = new LocationVO("DLH","Delhi");
+        final LocationVO city5 = new LocationVO("CBE","Coimbatore");
+        final LocationVO city6 = new LocationVO("KTA","Kolkata");
 
-
-        final List<LocationVO> locations = Arrays.asList(city1,city2,city3,city4,city5);
+        final List<LocationVO> locations = Arrays.asList(city1,city2,city3,city4,city5,city6);
 
         for(LocationVO location : locations) {
             locationRepository.save(location);

@@ -5,12 +5,14 @@ import com.company.vo.LocationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.company.service.FlightSearchService;
 import com.company.vo.FlightSearchVO;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -28,9 +30,8 @@ public class FlightController
     private LocationProviderService locationProviderService;
 
 
-
     @RequestMapping("/")
-    public String welcomeMessage(@ModelAttribute(value="flightSearchVO")FlightSearchVO flightSearchVO, Model model) {
+    public String welcomeMessage(@Valid @ModelAttribute(value="flightSearchVO")FlightSearchVO flightSearchVO, Model model) {
 
         model.addAttribute("flightSearchVO",flightSearchVO);
 
@@ -41,13 +42,18 @@ public class FlightController
     }
 
     @RequestMapping(value = "/getFlight", method = RequestMethod.POST)
-    public String getFlights(@ModelAttribute(value="flightSearchVO")FlightSearchVO flightSearchVO, Model model){
+    public String getFlights(@Valid @ModelAttribute(value="flightSearchVO")FlightSearchVO flightSearchVO, BindingResult bindingResult, Model model){
 
+        System.out.println(flightSearchVO.getSource());
+        System.out.println(flightSearchVO.getStartDate());
         List<LocationVO> searchOptions = locationProviderService.getLocations();
         model.addAttribute("searchOptions",searchOptions);
 
-        model.addAttribute("flightSearchVO", flightSearchService.searchFlight(flightSearchVO.getSource(),
-                flightSearchVO.getDestination()));
+        model.addAttribute("flightSearchVO", flightSearchService.searchFlight(
+                flightSearchVO.getSource(),
+                flightSearchVO.getDestination(),
+                flightSearchVO.getCapacity(),
+                flightSearchVO.getStartDate()));
         return "flightSearch";
     }
 
