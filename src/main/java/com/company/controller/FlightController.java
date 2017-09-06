@@ -1,7 +1,7 @@
 package com.company.controller;
 
-import com.company.service.LocationProviderService;
-import com.company.vo.LocationVO;
+import com.company.vo.Location;
+import com.company.vo.TravelClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +26,15 @@ public class FlightController
     @Autowired
     private FlightSearchService flightSearchService;
 
-    @Autowired
-    private LocationProviderService locationProviderService;
-
-
     @RequestMapping("/")
     public String welcomeMessage(@Valid @ModelAttribute(value="flightSearchVO")FlightSearchVO flightSearchVO, Model model) {
 
         model.addAttribute("flightSearchVO",flightSearchVO);
 
-        List<LocationVO> searchOptions = locationProviderService.getLocations();
+        TravelClassType travelClasses[] = TravelClassType.values();
+        model.addAttribute("travelClasses",travelClasses);
+
+        Location searchOptions[] = Location.values();
         model.addAttribute("searchOptions",searchOptions);
 
         return "flightSearch";
@@ -44,16 +43,14 @@ public class FlightController
     @RequestMapping(value = "/getFlight", method = RequestMethod.POST)
     public String getFlights(@Valid @ModelAttribute(value="flightSearchVO")FlightSearchVO flightSearchVO, BindingResult bindingResult, Model model){
 
-        System.out.println(flightSearchVO.getSource());
-        System.out.println(flightSearchVO.getStartDate());
-        List<LocationVO> searchOptions = locationProviderService.getLocations();
+        Location searchOptions[] = Location.values();
         model.addAttribute("searchOptions",searchOptions);
 
-        model.addAttribute("flightSearchVO", flightSearchService.searchFlight(
-                flightSearchVO.getSource(),
-                flightSearchVO.getDestination(),
-                flightSearchVO.getCapacity(),
-                flightSearchVO.getStartDate()));
+        TravelClassType travelClasses[] = TravelClassType.values();
+        model.addAttribute("travelClasses",travelClasses);
+
+        model.addAttribute("flightSearchVO", flightSearchService.searchFlight( flightSearchVO));
+
         return "flightSearch";
     }
 

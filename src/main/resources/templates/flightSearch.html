@@ -24,16 +24,16 @@
 
                 Source : <select id="optionsList" th:field="*{source}" name="optionsListId">
                     <option th:each="option : ${searchOptions}"
-                            th:value="${option.name}"
-                            th:text="${option.name}">Options</option>
+                            th:value="${option}"
+                            th:text="${option}">Options</option>
                 </select>
             </td>
             <td>
 
                 Destination: <select id="optionsList" name="optionsListId" th:field="*{destination}">
                     <option th:each="option : ${searchOptions}"
-                            th:value="${option.name}"
-                            th:text="${option.name}">Options</option>
+                            th:value="${option}"
+                            th:text="${option}">Options</option>
                 </select>
             </td>
             <td>
@@ -42,6 +42,13 @@
 
             <td>
                 Departure Date: <input type="date" id="dep_date" th:field="*{startDate}"/>
+            </td>
+            <td>
+                Select Class:<select id="seatTypeList" name="seatTypeListId" th:field="*{seatClass}">
+                <option th:each="travelclass : ${travelClasses}"
+                        th:value="${travelclass}"
+                        th:text="${travelclass}">Options</option>
+            </select>
             </td>
 
             <td>
@@ -54,11 +61,13 @@
         <th>FlightNo</th>
         <th>Source</th>
         <th>Destination</th>
+        <th>Total Price</th>
 
         <tr th:each="flight:${flightSearchVO.availableFlight}">
             <td th:text="${flight.flightNumber}"></td>
             <td th:text="${flight.source}"></td>
             <td th:text="${flight.destination}"></td>
+            <td th:text="${(flight.planeVO.seatTypes.get(flightSearchVO.seatClass).price) * (flightSearchVO.capacity)}"></td>
         </tr>
     </table>
     <span th:if="${#lists.isEmpty(flightSearchVO.availableFlight)}">No flights found!</span>

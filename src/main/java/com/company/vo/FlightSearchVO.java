@@ -10,27 +10,27 @@ import java.util.ArrayList;
 
 public class FlightSearchVO {
 
- String source;
- String destination;
+ Location source;
+ Location destination;
  int capacity;
  @DateTimeFormat(pattern = "yyyy-MM-dd")
  LocalDate startDate;
-
+ TravelClassType seatClass;
  ArrayList<FlightVO> availableFlight;
 
-    public String getSource() {
+    public Location getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(Location source) {
         this.source = source;
     }
 
-    public String getDestination() {
+    public Location getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Location destination) {
         this.destination = destination;
     }
 
@@ -57,4 +57,13 @@ public class FlightSearchVO {
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+
+    public TravelClassType getSeatClass() {
+        return seatClass;
+    }
+
+    public void setSeatClass(TravelClassType seatClass) {
+        this.seatClass = seatClass;
+    }
+
 }

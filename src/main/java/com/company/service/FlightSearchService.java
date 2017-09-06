@@ -1,21 +1,16 @@
 package com.company.service;
 
+import com.company.repository.FlightRepository;
 import com.company.repository.PlaneRepository;
-import com.company.vo.PlaneVO;
-import javafx.util.converter.LocalDateTimeStringConverter;
+import com.company.repository.SeatRepository;
+import com.company.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.company.repository.FlightRepository;
-import com.company.vo.FlightSearchVO;
-import com.company.vo.FlightVO;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 
 @Service
@@ -23,14 +18,35 @@ public class FlightSearchService {
 
     FlightRepository flightRepository;
     PlaneRepository planeRepository;
+    SeatRepository seatRepository;
 
-    @Autowired public FlightSearchService(FlightRepository flightRepository, PlaneRepository planeRepository ) {
+    @Autowired
+    public FlightSearchService(FlightRepository flightRepository, PlaneRepository planeRepository, SeatRepository seatRepository) {
 
+        final Map<TravelClassType, SeatVO> seatTypes1 = new HashMap<TravelClassType, SeatVO>();
+        final Map<TravelClassType, SeatVO> seatTypes2 = new HashMap<TravelClassType, SeatVO>();
 
-        final PlaneVO plane1 = new PlaneVO("P2J23", "2P2", 90);
-        final PlaneVO plane2 = new PlaneVO("P3J71", "3P3", 240);
-        final PlaneVO plane3 = new PlaneVO("P2J88", "2P2", 78);
-        final PlaneVO plane4 = new PlaneVO("P3J93", "3P3", 270);
+        seatRepository.save(new SeatVO("2P2B", "Business", 0, 0.0));
+        seatRepository.save(new SeatVO("2P2F", "First", 30, 10000.0));
+        seatRepository.save(new SeatVO("2P2E", "Economy", 90, 6000.0));
+        seatRepository.save(new SeatVO("3P3B", "Business", 20, 20000.0));
+        seatRepository.save(new SeatVO("3P3F", "First", 40, 12000.0));
+        seatRepository.save(new SeatVO("3P3E", "Economy", 120, 7000.0));
+
+        this.seatRepository = seatRepository;
+
+        seatTypes1.put(TravelClassType.Business, seatRepository.findOne("2P2B"));
+        seatTypes1.put(TravelClassType.First, seatRepository.findOne("2P2F"));
+        seatTypes1.put(TravelClassType.Economy, seatRepository.findOne("2P2E"));
+
+        seatTypes2.put(TravelClassType.Business, seatRepository.findOne("3P3B"));
+        seatTypes2.put(TravelClassType.First, seatRepository.findOne("3P3F"));
+        seatTypes2.put(TravelClassType.Economy, seatRepository.findOne("3P3E"));
+
+        final PlaneVO plane1 = new PlaneVO("P2J23", "2P2", seatTypes1);
+        final PlaneVO plane2 = new PlaneVO("P3J71", "3P3", seatTypes2);
+        final PlaneVO plane3 = new PlaneVO("P2J88", "2P2", seatTypes1);
+        final PlaneVO plane4 = new PlaneVO("P3J93", "3P3", seatTypes2);
 
         final List<PlaneVO> planes = Arrays.asList(plane1, plane2, plane3, plane4);
 
@@ -40,14 +56,14 @@ public class FlightSearchService {
 
         this.planeRepository = planeRepository;
 
-        final FlightVO flight1 = new FlightVO("AHJ123",planeRepository.findOne("P2J23"),
-                "Chennai","Bangalore", LocalDate.of(2017, Month.SEPTEMBER,30));
-        final FlightVO flight2 = new FlightVO("AHJ234",planeRepository.findOne("P3J71"),
-                "Bangalore","Hyderabad", LocalDate.of(2017, Month.SEPTEMBER,30));
-        final FlightVO flight3 = new FlightVO("AHJ345",planeRepository.findOne("P2J88"),
-                "Hyderabad","Mumbai",LocalDate.of(2017, Month.SEPTEMBER,30));
-        final FlightVO flight4 = new FlightVO("AHJ129",planeRepository.findOne("P3J93"),
-                "Chennai","Bangalore",LocalDate.of(2017, Month.SEPTEMBER,30));
+        final FlightVO flight1 = new FlightVO("AHJ123", planeRepository.findOne("P2J23"),
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 30));
+        final FlightVO flight2 = new FlightVO("AHJ234", planeRepository.findOne("P3J71"),
+                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 30));
+        final FlightVO flight3 = new FlightVO("AHJ345", planeRepository.findOne("P2J88"),
+                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 30));
+        final FlightVO flight4 = new FlightVO("AHJ129", planeRepository.findOne("P3J93"),
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 30));
 
         final List<FlightVO> flights = Arrays.asList(flight1, flight2, flight3, flight4);
 
@@ -55,7 +71,7 @@ public class FlightSearchService {
             flightRepository.save(flight);
         }
 
-        this.flightRepository= flightRepository;
+        this.flightRepository = flightRepository;
 
     }
 
@@ -64,37 +80,31 @@ public class FlightSearchService {
     }
 
 
+    public FlightSearchVO searchFlight(FlightSearchVO flightSearchVO) {
 
-    public FlightSearchVO searchFlight(String Source, String Destination, int Capacity, LocalDate StartDate){
-
-        if(Capacity <= 0){
-            Capacity=1;
+        if (flightSearchVO.getCapacity() <= 0) {
+            flightSearchVO.setCapacity(1);
         }
 
-        List<FlightVO> allFlights = getAllFlights();
+            List<FlightVO> allFlights = getAllFlights();
 
-        ArrayList<FlightVO> availableFlights = new ArrayList<FlightVO>();
-        FlightSearchVO flightSearchVO = new FlightSearchVO();
+            ArrayList<FlightVO> availableFlights = new ArrayList<FlightVO>();
 
-        flightSearchVO.setSource(Source);
-        flightSearchVO.setDestination(Destination);
-        flightSearchVO.setCapacity(Capacity);
-        flightSearchVO.setStartDate(StartDate);
 
-        for(FlightVO flight : allFlights){
-            if(flight.getSource().equalsIgnoreCase(Source) &&
-                    flight.getDestination().equalsIgnoreCase(Destination) &&
-                    (flight.getPlaneVO().getCapacity()>=Capacity) &&
-                    (flight.getStartDate().equals(StartDate) || (StartDate == null))){
+            for (FlightVO flight : allFlights) {
+                if (flight.getSource().equals(flightSearchVO.getSource()) &&
+                        flight.getDestination().equals(flightSearchVO.getDestination()) &&
+                        (flight.getPlaneVO().getSeatTypes().get(flightSearchVO.getSeatClass()).getCapacity() >= flightSearchVO.getCapacity()) &&
+                        (flight.getStartDate().equals(flightSearchVO.getStartDate()) || (flightSearchVO.getStartDate() == null))) {
 
-                availableFlights.add(flight);
+                    availableFlights.add(flight);
+
+                }
 
             }
 
+            flightSearchVO.setAvailableFlight(availableFlights);
+            return flightSearchVO;
         }
 
-        flightSearchVO.setAvailableFlight(availableFlights);
-        return flightSearchVO;
     }
-
-}

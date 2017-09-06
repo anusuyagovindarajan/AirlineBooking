@@ -1,11 +1,13 @@
 package com.company.vo;
 
+import com.sun.javafx.collections.MappingChange;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Map;
+
 
 @Data
 @NoArgsConstructor
@@ -16,7 +18,8 @@ public class PlaneVO {
     @Id
     String planeNumber;
     String planeModel;
-    int capacity;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    Map<TravelClassType,SeatVO> seatTypes;
 
     public String getPlaneNumber() {
         return planeNumber;
@@ -34,11 +37,11 @@ public class PlaneVO {
         this.planeModel = planeModel;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public Map<TravelClassType, SeatVO> getSeatTypes() {
+        return seatTypes;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setSeatTypes(Map<TravelClassType, SeatVO> seatTypes) {
+        this.seatTypes = seatTypes;
     }
 }

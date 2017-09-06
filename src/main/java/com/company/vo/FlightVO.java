@@ -1,28 +1,33 @@
 package com.company.vo;
 
+import com.company.utility.Future;
+import com.company.utility.LocalDateFutureValidator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
-public class FlightVO {
+public class FlightVO extends LocalDateFutureValidator {
 
     @Id
     String flightNumber;
     @ManyToOne
     PlaneVO planeVO;
-    String source;
-    String destination;
+    @Enumerated(EnumType.STRING)
+    Location source;
+    @Enumerated(EnumType.STRING)
+    Location destination;
     @DateTimeFormat(pattern = "dd-MM-YYYY")
+    @Future
     LocalDate startDate;
 
     public PlaneVO getPlaneVO() {
@@ -41,19 +46,19 @@ public class FlightVO {
         this.flightNumber = flightNumber;
     }
 
-    public String getSource() {
+    public Location getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(Location source) {
         this.source = source;
     }
 
-    public String getDestination() {
+    public Location getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Location destination) {
         this.destination = destination;
     }
 
@@ -64,4 +69,5 @@ public class FlightVO {
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+
 }
