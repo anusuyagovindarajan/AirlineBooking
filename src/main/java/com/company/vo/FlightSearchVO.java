@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 
 
@@ -98,6 +99,49 @@ public class FlightSearchVO {
                 price = price + 0.4 * price;
 
             }
+
+        }
+
+        if(seatClass.equals(TravelClassType.First)){
+
+            int daysLeft = Period.between(LocalDate.now(),startDate).getDays();
+            switch (daysLeft){
+                case 10:
+                    price = price;
+                    break;
+                case 9:
+                    price = price + 0.1*price;
+                    break;
+                case 8:
+                    price = price + 0.2*price;
+                    break;
+                case 7:
+                    price = price + 0.3*price;
+                    break;
+                case 6:
+                    price = price + 0.4*price;
+                    break;
+                case 5:
+                    price = price + 0.5*price;
+                    break;
+                case 4:
+                    price = price + 0.6*price;
+                    break;
+                case 3:
+                    price = price + 0.7*price;
+                    break;
+                case 2:
+                    price = price + 0.8*price;
+                    break;
+                case 1:
+                    price = price + 0.9*price;
+                    break;
+                case 0:
+                    price = price + 1*price;
+                    break;
+
+            }
+
 
         }
 

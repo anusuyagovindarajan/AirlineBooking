@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Period;
 import java.util.*;
-import java.util.function.Predicate;
 
 
 @Service
@@ -30,7 +30,7 @@ public class FlightSearchService {
         seatRepository.save(new SeatVO("2P2F", TravelClassType.First, 30, 30, 10000.0));
         seatRepository.save(new SeatVO("2P2E", TravelClassType.Economy, 195, 95, 6000.0));
         seatRepository.save(new SeatVO("3P3B", TravelClassType.Business, 20, 20, 10000.0));
-        seatRepository.save(new SeatVO("3P3F", TravelClassType.First, 40, 40, 12000.0));
+        seatRepository.save(new SeatVO("3P3F", TravelClassType.First, 40, 40, 10000.0));
         seatRepository.save(new SeatVO("3P3E", TravelClassType.Economy, 195, 160, 6000.0));
 
         this.seatRepository = seatRepository;
@@ -57,13 +57,13 @@ public class FlightSearchService {
         this.planeRepository = planeRepository;
 
         final FlightVO flight1 = new FlightVO("AHJ123", planeRepository.findOne("P2J23"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 29));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 13));
         final FlightVO flight2 = new FlightVO("AHJ234", planeRepository.findOne("P3J71"),
-                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 29));
+                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 13));
         final FlightVO flight3 = new FlightVO("AHJ345", planeRepository.findOne("P2J88"),
-                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 29));
+                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 13));
         final FlightVO flight4 = new FlightVO("AHJ129", planeRepository.findOne("P3J93"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 29));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 13));
 
         final List<FlightVO> flights = Arrays.asList(flight1, flight2, flight3, flight4);
 
@@ -97,7 +97,23 @@ public class FlightSearchService {
                     (flight.getPlaneVO().getSeatTypes().get(flightSearchVO.getSeatClass()).getCurrentCapacity() >= flightSearchVO.getCapacity()) &&
                     (flight.getStartDate().equals(flightSearchVO.getStartDate()) || (flightSearchVO.getStartDate() == null))) {
 
-                    availableFlights.add(flight);
+                    LocalDate departureDate;
+                    if(flightSearchVO.getStartDate()!=null){
+                        departureDate = flightSearchVO.getStartDate();
+                    }
+                    else{
+                        departureDate = flight.getStartDate();
+                    }
+
+
+                    if(flightSearchVO.getSeatClass().equals(TravelClassType.First)) {
+                        long days = Period.between(LocalDate.now(),departureDate).getDays();
+                        if(days <= 10 && days >0)
+                            availableFlights.add(flight);
+                    }
+                    else{
+                        availableFlights.add(flight);
+                    }
 
                 }
 
