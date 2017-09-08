@@ -26,12 +26,12 @@ public class FlightSearchService {
         final Map<TravelClassType, SeatVO> seatTypes1 = new HashMap<TravelClassType, SeatVO>();
         final Map<TravelClassType, SeatVO> seatTypes2 = new HashMap<TravelClassType, SeatVO>();
 
-        seatRepository.save(new SeatVO("2P2B", "Business", 0, 0.0));
-        seatRepository.save(new SeatVO("2P2F", "First", 30, 10000.0));
-        seatRepository.save(new SeatVO("2P2E", "Economy", 90, 6000.0));
-        seatRepository.save(new SeatVO("3P3B", "Business", 20, 20000.0));
-        seatRepository.save(new SeatVO("3P3F", "First", 40, 12000.0));
-        seatRepository.save(new SeatVO("3P3E", "Economy", 120, 7000.0));
+        seatRepository.save(new SeatVO("2P2B", TravelClassType.Business, 20, 20, 10000.0));
+        seatRepository.save(new SeatVO("2P2F", TravelClassType.First, 30, 30, 10000.0));
+        seatRepository.save(new SeatVO("2P2E", TravelClassType.Economy, 195, 95, 6000.0));
+        seatRepository.save(new SeatVO("3P3B", TravelClassType.Business, 20, 20, 10000.0));
+        seatRepository.save(new SeatVO("3P3F", TravelClassType.First, 40, 40, 12000.0));
+        seatRepository.save(new SeatVO("3P3E", TravelClassType.Economy, 195, 160, 6000.0));
 
         this.seatRepository = seatRepository;
 
@@ -57,13 +57,13 @@ public class FlightSearchService {
         this.planeRepository = planeRepository;
 
         final FlightVO flight1 = new FlightVO("AHJ123", planeRepository.findOne("P2J23"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 30));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 29));
         final FlightVO flight2 = new FlightVO("AHJ234", planeRepository.findOne("P3J71"),
-                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 30));
+                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 29));
         final FlightVO flight3 = new FlightVO("AHJ345", planeRepository.findOne("P2J88"),
-                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 30));
+                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 29));
         final FlightVO flight4 = new FlightVO("AHJ129", planeRepository.findOne("P3J93"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 30));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 29));
 
         final List<FlightVO> flights = Arrays.asList(flight1, flight2, flight3, flight4);
 
@@ -93,9 +93,9 @@ public class FlightSearchService {
 
             for (FlightVO flight : allFlights) {
                 if (flight.getSource().equals(flightSearchVO.getSource()) &&
-                        flight.getDestination().equals(flightSearchVO.getDestination()) &&
-                        (flight.getPlaneVO().getSeatTypes().get(flightSearchVO.getSeatClass()).getCapacity() >= flightSearchVO.getCapacity()) &&
-                        (flight.getStartDate().equals(flightSearchVO.getStartDate()) || (flightSearchVO.getStartDate() == null))) {
+                    flight.getDestination().equals(flightSearchVO.getDestination()) &&
+                    (flight.getPlaneVO().getSeatTypes().get(flightSearchVO.getSeatClass()).getCurrentCapacity() >= flightSearchVO.getCapacity()) &&
+                    (flight.getStartDate().equals(flightSearchVO.getStartDate()) || (flightSearchVO.getStartDate() == null))) {
 
                     availableFlights.add(flight);
 
@@ -107,4 +107,5 @@ public class FlightSearchService {
             return flightSearchVO;
         }
 
-    }
+
+}

@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -17,8 +14,10 @@ public class SeatVO {
 
     @Id
     String planeSeatTypeModel;
-    String type;
-    int capacity;
+    @Enumerated(EnumType.STRING)
+    TravelClassType type;
+    int initialCapacity;
+    int currentCapacity;
     double price;
 
     public String getPlaneSeatTypeModel() {
@@ -29,25 +28,25 @@ public class SeatVO {
         this.planeSeatTypeModel = planeSeatTypeModel;
     }
 
-    public String getType() {
+    public TravelClassType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TravelClassType type) {
         this.type = type;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getInitialCapacity() { return initialCapacity; }
+
+    public void setInitialCapacity(int initialCapacity) {
+        this.initialCapacity = initialCapacity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
+    public int getCurrentCapacity() { return currentCapacity; }
 
-    public double getPrice() {
-        return price;
-    }
+    public void setCurrentCapacity(int currentCapacity) { this.currentCapacity = currentCapacity; }
+
+    public double getPrice() { return price; }
 
     public void setPrice(double price) {
         this.price = price;

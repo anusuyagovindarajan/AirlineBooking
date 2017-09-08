@@ -66,4 +66,43 @@ public class FlightSearchVO {
         this.seatClass = seatClass;
     }
 
+    public double surgePrice(FlightVO flight) {
+        if(this.startDate == null)
+          startDate = flight.getStartDate();
+        TravelClassType seatClass = this.seatClass;
+        int capacity = this.capacity;
+        int initialCapacity = flight.getPlaneVO().getSeatTypes().get(seatClass).getInitialCapacity();
+        int currentCapacity = flight.getPlaneVO().getSeatTypes().get(seatClass).getCurrentCapacity();
+        double price = flight.getPlaneVO().getSeatTypes().get(seatClass).getPrice();
+
+        int capacityDiff = (initialCapacity - currentCapacity);
+
+        if (seatClass.equals(TravelClassType.Economy)) {
+            if (capacityDiff >= 0.1 * initialCapacity && capacityDiff <= 0.4 * initialCapacity) {
+                price = price;
+            }
+            else if (capacityDiff > 0.4 * initialCapacity && capacityDiff <= 0.9 * initialCapacity) {
+                price = price + 0.3 * price;
+            }
+            else if (capacityDiff > 0.9 * initialCapacity && capacityDiff <= initialCapacity) {
+                price =  price + 0.6 * price;
+            }
+        }
+
+        String dayOfJourney = startDate.getDayOfWeek().name();
+
+        if (seatClass.equals(TravelClassType.Business)) {
+
+            if (dayOfJourney.equalsIgnoreCase("Monday") || dayOfJourney.equalsIgnoreCase("Friday") || dayOfJourney.equalsIgnoreCase("Sunday")) {
+
+                price = price + 0.4 * price;
+
+            }
+
+        }
+
+        return price * capacity;
+
+    }
+
 }

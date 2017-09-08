@@ -67,7 +67,7 @@
             <td th:text="${flight.flightNumber}"></td>
             <td th:text="${flight.source}"></td>
             <td th:text="${flight.destination}"></td>
-            <td th:text="${(flight.planeVO.seatTypes.get(flightSearchVO.seatClass).price) * (flightSearchVO.capacity)}"></td>
+            <td th:text="${flightSearchVO.surgePrice(flight)}"></td>
         </tr>
     </table>
     <span th:if="${#lists.isEmpty(flightSearchVO.availableFlight)}">No flights found!</span>
