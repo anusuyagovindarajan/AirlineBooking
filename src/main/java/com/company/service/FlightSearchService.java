@@ -116,7 +116,7 @@ public class FlightSearchService {
 
                     if(flightSearchVO.getSeatClass().equals(TravelClassType.First)) {
                         long days = Period.between(LocalDate.now(),departureDate).getDays();
-                        if(days <= 10 && days >0)
+                        if(days <= 10 && days >= 0)
                             availableFlights.add(flight);
                     }
                     else{
