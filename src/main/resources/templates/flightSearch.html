@@ -1,16 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Airline Booking System</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
         BODY {
-            font-family: Tahoma;
-            font-size: 10pt;
+            font-family: Verdana ;
+            font-size: 8pt;
             background: beige;
         }
-        .brdr TD, TH {
+
+        .brdr1 {
+            border-bottom: 0px solid silver;
+        }
+
+        .brdr TD,TH {
             border-bottom: 1px solid silver;
+        }
+
+        .checkoutbutton {
+            font-family: Verdana ;
+            font-size: 8pt;
+            background-color: lightgrey;
+            moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border: 0px solid;
         }
     </style>
 </head>
@@ -18,11 +32,16 @@
 
 
 <form action="#" th:action="@{/getFlight}" th:object="${flightSearchVO}" method="post">
-    <table>
+    <table class="brdr1" cellpadding="2" cellspacing="2">
+        <th align="left">Source</th>
+        <th align="left">Destination</th>
+        <th align="left">Seats Required</th>
+        <th align="left">Departure Date</th>
+        <th align="left">Select Class</th>
         <tr>
             <td>
 
-                Source : <select id="optionsList" th:field="*{source}" name="optionsListId">
+                <select class="checkoutbutton" id="optionsList" th:field="*{source}" name="optionsListId">
                     <option th:each="option : ${searchOptions}"
                             th:value="${option}"
                             th:text="${option}">Options</option>
@@ -30,29 +49,28 @@
             </td>
             <td>
 
-                Destination: <select id="optionsList" name="optionsListId" th:field="*{destination}">
+                <select class="checkoutbutton" id="optionsList" name="optionsListId" th:field="*{destination}">
                     <option th:each="option : ${searchOptions}"
                             th:value="${option}"
                             th:text="${option}">Options</option>
                 </select>
             </td>
             <td>
-                Seats Required: <input type="number" th:field="*{capacity}" />
+                <input class="checkoutbutton" type="number" th:field="*{capacity}" />
             </td>
 
             <td>
-                Departure Date: <input type="date" id="dep_date" th:field="*{startDate}"/>
+                <input class="checkoutbutton" type="date" id="dep_date" th:field="*{startDate}"/>
             </td>
             <td>
-                Select Class:<select id="seatTypeList" name="seatTypeListId" th:field="*{seatClass}">
-                <option th:each="travelclass : ${travelClasses}"
-                        th:value="${travelclass}"
-                        th:text="${travelclass}">Options</option>
+                <select class="checkoutbutton" id="seatTypeList" name="seatTypeListId" th:field="*{seatClass}">
+                    <option th:each="travelclass : ${travelClasses}"
+                            th:value="${travelclass}"
+                            th:text="${travelclass}">Options</option>
             </select>
             </td>
-
             <td>
-                <input type="submit" />
+                <input class="checkoutbutton" type="submit" />
             </td>
         </tr>
     </table>
@@ -70,7 +88,7 @@
             <td th:text="${flightSearchVO.surgePrice(flight)}"></td>
         </tr>
     </table>
-    <span th:if="${#lists.isEmpty(flightSearchVO.availableFlight)}">No flights found!</span>
+    <span th:if="${#lists.isEmpty(flightSearchVO.availableFlight)}"><div>No flights found!</div></span>
 </form>
 
 

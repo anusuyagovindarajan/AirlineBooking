@@ -25,28 +25,36 @@ public class FlightSearchService {
 
         final Map<TravelClassType, SeatVO> seatTypes1 = new HashMap<TravelClassType, SeatVO>();
         final Map<TravelClassType, SeatVO> seatTypes2 = new HashMap<TravelClassType, SeatVO>();
+        final Map<TravelClassType, SeatVO> seatTypes3 = new HashMap<TravelClassType, SeatVO>();
 
-        seatRepository.save(new SeatVO("2P2B", TravelClassType.Business, 20, 20, 10000.0));
-        seatRepository.save(new SeatVO("2P2F", TravelClassType.First, 30, 30, 10000.0));
-        seatRepository.save(new SeatVO("2P2E", TravelClassType.Economy, 195, 95, 6000.0));
-        seatRepository.save(new SeatVO("3P3B", TravelClassType.Business, 20, 20, 10000.0));
-        seatRepository.save(new SeatVO("3P3F", TravelClassType.First, 40, 40, 10000.0));
-        seatRepository.save(new SeatVO("3P3E", TravelClassType.Economy, 195, 160, 6000.0));
+        seatRepository.save(new SeatVO("BOEING777B", TravelClassType.Business, 35, 35, 13000.0));
+        seatRepository.save(new SeatVO("BOEING777F", TravelClassType.First, 8, 8, 20000.0));
+        seatRepository.save(new SeatVO("BOEING777E", TravelClassType.Economy, 195, 95, 6000.0));
+        seatRepository.save(new SeatVO("AIRBUSA319V2B", TravelClassType.Business, 0, 0, 0.0));
+        seatRepository.save(new SeatVO("AIRBUSA319V2F", TravelClassType.First, 0, 0, 0.0));
+        seatRepository.save(new SeatVO("AIRBUSA319V2E", TravelClassType.Economy, 144, 20, 4000.0));
+        seatRepository.save(new SeatVO("AIRBUSA321B", TravelClassType.Business, 20, 20, 10000.0));
+        seatRepository.save(new SeatVO("AIRBUSA321F", TravelClassType.First, 0, 0, 0.0));
+        seatRepository.save(new SeatVO("AIRBUSA321E", TravelClassType.Economy, 152, 140, 5000.0));
 
         this.seatRepository = seatRepository;
 
-        seatTypes1.put(TravelClassType.Business, seatRepository.findOne("2P2B"));
-        seatTypes1.put(TravelClassType.First, seatRepository.findOne("2P2F"));
-        seatTypes1.put(TravelClassType.Economy, seatRepository.findOne("2P2E"));
+        seatTypes1.put(TravelClassType.Business, seatRepository.findOne("BOEING777B"));
+        seatTypes1.put(TravelClassType.First, seatRepository.findOne("BOEING777F"));
+        seatTypes1.put(TravelClassType.Economy, seatRepository.findOne("BOEING777E"));
 
-        seatTypes2.put(TravelClassType.Business, seatRepository.findOne("3P3B"));
-        seatTypes2.put(TravelClassType.First, seatRepository.findOne("3P3F"));
-        seatTypes2.put(TravelClassType.Economy, seatRepository.findOne("3P3E"));
+        seatTypes2.put(TravelClassType.Business, seatRepository.findOne("AIRBUSA319V2B"));
+        seatTypes2.put(TravelClassType.First, seatRepository.findOne("AIRBUSA319V2F"));
+        seatTypes2.put(TravelClassType.Economy, seatRepository.findOne("AIRBUSA319V2E"));
 
-        final PlaneVO plane1 = new PlaneVO("P2J23", "2P2", seatTypes1);
-        final PlaneVO plane2 = new PlaneVO("P3J71", "3P3", seatTypes2);
-        final PlaneVO plane3 = new PlaneVO("P2J88", "2P2", seatTypes1);
-        final PlaneVO plane4 = new PlaneVO("P3J93", "3P3", seatTypes2);
+        seatTypes3.put(TravelClassType.Business, seatRepository.findOne("AIRBUSA321B"));
+        seatTypes3.put(TravelClassType.First, seatRepository.findOne("AIRBUSA321F"));
+        seatTypes3.put(TravelClassType.Economy, seatRepository.findOne("AIRBUSA321E"));
+
+        final PlaneVO plane1 = new PlaneVO("P2J23", "BOEING777", seatTypes1);
+        final PlaneVO plane2 = new PlaneVO("P3J71", "AIRBUSA319V2", seatTypes2);
+        final PlaneVO plane3 = new PlaneVO("P2J88", "AIRBUSA321", seatTypes3);
+        final PlaneVO plane4 = new PlaneVO("P3J93", "AIRBUSA319V2", seatTypes2);
 
         final List<PlaneVO> planes = Arrays.asList(plane1, plane2, plane3, plane4);
 
@@ -57,13 +65,13 @@ public class FlightSearchService {
         this.planeRepository = planeRepository;
 
         final FlightVO flight1 = new FlightVO("AHJ123", planeRepository.findOne("P2J23"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 13));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 20));
         final FlightVO flight2 = new FlightVO("AHJ234", planeRepository.findOne("P3J71"),
-                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 13));
+                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 19));
         final FlightVO flight3 = new FlightVO("AHJ345", planeRepository.findOne("P2J88"),
-                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 13));
+                Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 25));
         final FlightVO flight4 = new FlightVO("AHJ129", planeRepository.findOne("P3J93"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 13));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 30));
 
         final List<FlightVO> flights = Arrays.asList(flight1, flight2, flight3, flight4);
 

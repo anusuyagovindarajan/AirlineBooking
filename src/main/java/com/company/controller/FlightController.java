@@ -13,7 +13,6 @@ import com.company.service.FlightSearchService;
 import com.company.vo.FlightSearchVO;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Created by rajashrk on 8/8/17.
