@@ -100,6 +100,9 @@
                     No Flights Found!
                 </div>
             </span>
+            <div class="alert alert-success" th:if="${not #lists.isEmpty(flightSearchVO.availableFlight)}">
+                <strong th:text="${#lists.size(flightSearchVO.availableFlight)}"></strong> Flights Found!
+            </div>
             <div class="table-responsive rounded">
             <table class="table table-striped table-bordered" cellpadding="2" cellspacing="2" th:if="${not #lists.isEmpty(flightSearchVO.availableFlight)}">
                 <th>Flight No</th>
@@ -111,12 +114,9 @@
                     <td th:text="${flight.flightNumber}"></td>
                     <td th:text="${flight.source}"></td>
                     <td th:text="${flight.destination}"></td>
-                    <td class="text-right" th:text="${flightSearchVO.surgePrice(flight)}"></td>
+                    <td class="text-right" th:text="${flightSearchVO.getSurgePrice(flightSearchVO,flight)}"></td>
                 </tr>
             </table>
-                <div class="alert alert-success" th:if="${not #lists.isEmpty(flightSearchVO.availableFlight)}">
-                    <strong th:text="${#lists.size(flightSearchVO.availableFlight)}"></strong> Flights Found!
-                </div>
             </div>
         </main>
     </div>
