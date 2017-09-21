@@ -65,9 +65,9 @@ public class FlightSearchService {
         this.planeRepository = planeRepository;
 
         final FlightVO flight1 = new FlightVO("AHJ123", planeRepository.findOne("P2J23"),
-                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 20));
+                Location.Chennai, Location.Bangalore, LocalDate.of(2017, Month.SEPTEMBER, 23));
         final FlightVO flight2 = new FlightVO("AHJ234", planeRepository.findOne("P3J71"),
-                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 19));
+                Location.Bangalore, Location.Hyderabad, LocalDate.of(2017, Month.SEPTEMBER, 22));
         final FlightVO flight3 = new FlightVO("AHJ345", planeRepository.findOne("P2J88"),
                 Location.Hyderabad, Location.Mumbai, LocalDate.of(2017, Month.SEPTEMBER, 25));
         final FlightVO flight4 = new FlightVO("AHJ129", planeRepository.findOne("P3J93"),
