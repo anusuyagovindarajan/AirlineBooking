@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-public class FlightVO extends LocalDateFutureValidator {
+public class FlightVO {
 
     @Id
     String flightNumber;
