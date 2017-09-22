@@ -19,6 +19,7 @@ public class PricingService {
         int initialCapacity = flight.getPlaneVO().getSeatTypes().get(seatClass).getInitialCapacity();
         int currentCapacity = flight.getPlaneVO().getSeatTypes().get(seatClass).getCurrentCapacity();
         double price = flight.getPlaneVO().getSeatTypes().get(seatClass).getPrice();
+        String dayOfJourney = flightSearchVO.getStartDate().getDayOfWeek().name();
 
         int capacityDiff = (initialCapacity - currentCapacity);
 
@@ -27,16 +28,12 @@ public class PricingService {
             price = economySurgeCalculate(capacityDiff, initialCapacity, price);
 
         }
-
-        String dayOfJourney = flightSearchVO.getStartDate().getDayOfWeek().name();
-
-        if (seatClass.equals(TravelClassType.Business)) {
+        else if (seatClass.equals(TravelClassType.Business)) {
 
            price = businessSurgeCalculate(dayOfJourney, price);
 
         }
-
-        if(seatClass.equals(TravelClassType.First)){
+        else if(seatClass.equals(TravelClassType.First)){
 
             price = firstSurgeCalculate(price, flightSearchVO);
 
